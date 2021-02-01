@@ -28,5 +28,15 @@ def db_execute_sql(sql, fetch, **kwargs):
 
     return rows
 
+def get_all(table):
+    return db_execute_sql(f"SELECT * FROM {table}", True)
+
 def get_questions(guild_id):
     return db_execute_sql(f"SELECT question_num, question, question_type FROM questions WHERE guild_id = {guild_id}", True)
+
+def save_user(id, name):
+    db_execute_sql("INSERT INTO users ( id, name ) values ( %s, %s ) ON DUPLICATE KEY UPDATE name = %s", False, id=id, name_1=name, name_2=name)
+
+def save_user_guild(user_id, guild_id, guild_name):
+    db_execute_sql("INSERT INTO user_guilds ( user_id, guild_id, guild_name ) values (%s, %s, %s) ON DUPLICATE KEY UPDATE guild_name = %s",
+        False, user_id=user_id, guild_id=guild_id, guild_name_1=guild_name, guild_name_2=guild_name)

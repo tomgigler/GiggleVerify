@@ -6,6 +6,7 @@ from traceback import format_exc
 from local_settings import bot_token, bot_owner_id
 import giglog
 import gigquestions
+import giguser
 
 client = discord.Client()
 current_question = {}
@@ -64,6 +65,16 @@ async def on_message(msg):
 
         if re.match(r'\s*&\s*giggle\s*verify\s*$', msg.content):
             await init_user_verification(msg)
+            return
+
+        match = re.match(r'&g(iggle)? +adduser +(\S+)( +(\S+))? *$', msg.content)
+        if match and msg.author.id == bot_owner_id:
+            if match.group(3):
+                guild_id = int(match.group(3))
+            else:
+                guild_id = msg.guild.id
+            giguser.save_user(int(match.group(2)), client.get_user(int(match.group(2))).name, int(guild_id), client.get_guild(guild_id).name)
+            await msg.channel.send(f"Permissions granted for {client.get_user(int(match.group(2))).mention} in {client.get_guild(guild_id).name}")
             return
 
     except:
