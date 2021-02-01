@@ -60,9 +60,11 @@ async def on_message(msg):
 
         if isinstance(msg.channel, discord.channel.DMChannel):
             await process_dm(msg)
+            return
 
         if re.match(r'\s*&\s*giggle\s*verify\s*$', msg.content):
             await init_user_verification(msg)
+            return
 
     except:
         await giglog.log(client, f"{format_exc()}")
