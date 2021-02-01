@@ -20,14 +20,24 @@ if(isset($_SESSION['message']))
 $db = new DBConnection();
 $guilds = $db->get_guilds($_SESSION['user_id']);
 
+$guild = $guilds[0][0];
+
+if(isset($_GET['guild'])){
+  foreach($guilds as $g){
+    if($g[0] == $_GET['guild']){ $guild = $g[0]; }
+  }
+}
+
 print "    <label>Server:&nbsp;</label>\n";
-print "      <select label='Guild:' id='guild_select'>\n";
-foreach($guilds as $guild){
-  print "        <option value='".$guild[0]."'>".$guild[1]."</option>\n";
+print "      <select label='Guild:' id='guild_select' onchange=\"location.href='home.php?guild='+$('#guild_select').val()\">\n";
+foreach($guilds as $g){
+  print "        <option value='".$g[0]."'";
+  if($guild == $g[0]) { print " selected"; }
+  print ">".$g[1]."</option>\n";
 }
 print "      </select>\n";
 
-$questions = $db->get_questions($guilds[0][0]);
+$questions = $db->get_questions($guild);
 $question_types = ["None", "Number", "Yes/No", "Text"];
 
 print "<h2>Questions</h2>\n";
@@ -47,6 +57,11 @@ foreach($questions as $question){
 }
 print "</table>\n";
 
+print "<br>\n";
+print "<br>\n";
+
+print "<button onclick=\"\" >Add Question</button>\n";
+
 ?>
 
 </center>
@@ -54,5 +69,4 @@ print "</table>\n";
 </html>
 
 <script>
-$("#question_table").innerHTML = ""
 </script>
