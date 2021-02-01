@@ -1,3 +1,7 @@
+# My files
+connect_to_db.sh
+/images/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
