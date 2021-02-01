@@ -28,7 +28,12 @@ async def process_dm(msg):
         if current_question[msg.author.id] == 0:
             if re.match(r'\S*verify\S*$', msg.content):
                 current_question[msg.author.id] = 1
-                await msg.channel.send(questions[current_question[msg.author.id]].question)
+                if current_question[msg.author.id] <= len(questions):
+                    await msg.channel.send(questions[current_question[msg.author.id]].question)
+                else:
+                    await msg.channel.send("Thank you for taking part in the verification process")
+                    current_question.pop(msg.author.id, None)
+                    replies.pop(msg.author.id, None)
         else:
             if questions[current_question[msg.author.id]].question_type == gigquestions.QuestionType.YESNO:
                 if not re.match(r'\s*(yes|no)\s*', msg.content, re.IGNORECASE):
