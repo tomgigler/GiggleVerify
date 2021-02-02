@@ -28,6 +28,10 @@ pre {
   white-space: pre-wrap;
   padding: 5px 15px;
 }
+.footer {
+  font-family: Calibri;
+  font-size: 20px;
+}
 .content-div {
   width: 60%;
   margin: 0;
