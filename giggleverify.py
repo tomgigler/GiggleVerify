@@ -103,7 +103,10 @@ async def on_message(msg):
             return
 
     except gigutil.GigException as e:
-        await msg.channel.send(embed=discord.Embed(description=str(e), color=0xff0000))
+        try:
+            await msg.channel.send(embed=discord.Embed(description=str(e), color=0xff0000))
+        except:
+            await giglog.log(client, f"{format_exc()}")
 
     except:
         await giglog.log(client, f"{format_exc()}")
