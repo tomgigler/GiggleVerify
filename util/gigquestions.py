@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import gigdb
 
-questions = {}
-
 class QuestionType:
     NUMBER = 1
     YESNO = 2
@@ -13,7 +11,8 @@ class Question:
         self.question = question
         self.question_type = question_type
 
-def load_questions(guild_id):
-    questions[guild_id] = {}
+def get_questions(guild_id):
+    questions = {}
     for row in gigdb.get_questions(guild_id):
-        questions[guild_id][row[0]] = Question(row[1], row[2])
+        questions[row[0]] = Question(row[1], row[2])
+    return questions
