@@ -31,7 +31,7 @@ async def process_dm(msg):
             if re.match(r'\S*verify\S*$', msg.content):
                 current_question[msg.author.id] = 1
                 if current_question[msg.author.id] <= len(questions):
-                    await msg.channel.send(questions[current_question[msg.author.id]].question)
+                    await msg.channel.send(f"Please answer the following Questions:\n\n{questions[current_question[msg.author.id]].question}")
                 else:
                     await msg.channel.send("Thank you for taking part in the verification process")
                     current_question.pop(msg.author.id, None)
