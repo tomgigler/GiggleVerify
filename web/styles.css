@@ -15,10 +15,13 @@ label {
   font-weight: bold;
   font-size: 20px;
 }
-td.delete-cell:hover {
+td.action-cell:hover {
   background-color: #005C8A;
   cursor: pointer;
   color: white;
+}
+td.disable-cell {
+  background-color: #999999;
 }
 pre {
   white-space: pre-wrap;

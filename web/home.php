@@ -53,8 +53,8 @@ foreach($questions as $question){
   print "    <td>".$question[0]."</td>\n";
   print "    <td>".$question[1]."</td>\n";
   print "    <td>".$question_types[$question[2]]."</td>\n";
-  print "    <td class='delete-cell' onclick='del_question(".$question[0].")'>❌</td>\n";
-  print "    <td class='delete-cell' onclick='edit_question(".$question[0].")'>✏️</td>\n";
+  print "    <td class='action-cell' onclick='delete_question(".$question[0].")'>❌</td>\n";
+  print "    <td class='action-cell' onclick='edit_question(".$question[0].")'>✏️</td>\n";
   print "  </tr>\n";
 }
 print "</table>\n";
