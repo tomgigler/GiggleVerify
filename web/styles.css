@@ -2,6 +2,7 @@ table, th, td {
   border: 1px solid black;
   font-family: Calibri;
   font-size: 20px;
+  min-width: 20px;
 }
 select {
   font-family: Calibri;
