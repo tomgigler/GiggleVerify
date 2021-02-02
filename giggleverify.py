@@ -16,6 +16,8 @@ user_questions = {}
 replies = {}
 
 async def init_user_verification(msg):
+    if not gigdb.get_staff_channel_id(msg.guild.id):
+        raise gigutil.GigException(f"{client.user.mention} has not been configured on this server")
     current_question[msg.author.id] = 0
     user_questions[msg.author.id] = gigquestions.get_questions(msg.guild.id)
     replies[msg.author.id] = {}
@@ -65,21 +67,32 @@ async def on_message(msg):
             return
 
         if isinstance(msg.channel, discord.channel.DMChannel):
+            match = re.match(r'(\d{18})\s*(.+)', msg.content)
+            if match:
+                user = client.get_user(bot_owner_id)
+                await user.send(f"{msg.author.mention} ({msg.author.id}) said {msg.content}")
+
             await process_dm(msg)
             return
 
-        if re.match(r'\s*&\s*giggle\s*verify\s*$', msg.content):
+        if re.match(r'\s*&giggle\s*verify\s*$', msg.content):
             await init_user_verification(msg)
             return
 
-        match = re.match(r'\s*&\s*giggle\s*channel\s+(\S+)\s*$', msg.content)
+        if re.match(r'\s*&giggle', msg.content):
+            if msg.author.id not in giguser.user_guilds.keys() or msg.guild.id not in giguser.user_guilds[msg.author.id]: 
+                await msg.channel.send(embed=discord.Embed(description=f"You do not have premission to interact with me on this server\n\nDM {client.user.mention} to request permission\n\n"
+                    f"Your message _must_ begin with this server id `{msg.guild.id}`", color=0xff0000))
+                return
+
+        match = re.match(r'\s*&giggle\s*channel\s+(\S+)\s*$', msg.content)
         if match:
             channel = gigutil.get_channel_by_name_or_id(client, msg.guild, match.group(1))
             gigdb.update_guild(msg.guild.id, msg.guild.name, channel.id, channel.name)
             await msg.channel.send(f"Verification responses will be posted in {channel.mention}")
             return
 
-        match = re.match(r'&g(iggle)? +adduser +(\S+)( +(\S+))? *$', msg.content)
+        match = re.match(r'&giggle +adduser +(\S+)( +(\S+))? *$', msg.content)
         if match and msg.author.id == bot_owner_id:
             if match.group(3):
                 guild_id = int(match.group(3))
@@ -88,6 +101,9 @@ async def on_message(msg):
             giguser.save_user(int(match.group(2)), client.get_user(int(match.group(2))).name, int(guild_id), client.get_guild(guild_id).name)
             await msg.channel.send(f"Permissions granted for {client.get_user(int(match.group(2))).mention} in {client.get_guild(guild_id).name}")
             return
+
+    except gigutil.GigException as e:
+        await msg.channel.send(embed=discord.Embed(description=str(e), color=0xff0000))
 
     except:
         await giglog.log(client, f"{format_exc()}")
@@ -108,4 +124,5 @@ async def on_guild_join(guild):
     except:
         await giglog.log(client, f"{format_exc()}")
 
+giguser.load_users()
 client.run(bot_token)

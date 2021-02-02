@@ -45,3 +45,10 @@ def update_guild(guild_id, guild_name, staff_channel_id=None, staff_channel_name
     db_execute_sql("INSERT INTO guilds values (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE name = %s, staff_channel_id = %s, staff_channel_name = %s",
         False, guild_id=guild_id, guild_name=guild_name, staff_channel_id=staff_channel_id, staff_channel_name=staff_channel_name,
         guild_name_2=guild_name, staff_channel_id_2=staff_channel_id, staff_channel_name_2=staff_channel_name)
+
+def get_staff_channel_id(guild_id):
+    ret = None
+    res = db_execute_sql("SELECT staff_channel_id FROM guilds WHERE id = %s", True, guil_id=guild_id)
+    if len(res):
+        ret = res[0][0]
+    return ret
