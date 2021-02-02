@@ -12,20 +12,18 @@ import gigdb
 
 client = discord.Client()
 current_question = {}
-user_guilds = {}
+user_questions = {}
 replies = {}
 
 async def init_user_verification(msg):
     current_question[msg.author.id] = 0
-    user_guilds[msg.author.id] = msg.guild.id
+    user_questions[msg.author.id] = gigquestions.get_questions(msg.guild.id)
     replies[msg.author.id] = {}
     await client.get_user(msg.author.id).send(f"Welcome to the {msg.guild.name} verification process.  Type `verify` to begin")
 
 async def process_dm(msg):
     if msg.author.id in current_question:
-        if user_guilds[msg.author.id] not in gigquestions.questions:
-            gigquestions.load_questions(user_guilds[msg.author.id])
-        questions = gigquestions.questions[user_guilds[msg.author.id]]
+        questions = user_questions[msg.author.id]
 
         if current_question[msg.author.id] == 0:
             if re.match(r'\S*verify\S*$', msg.content):
