@@ -29,10 +29,10 @@ def db_execute_sql(sql, fetch, **kwargs):
     return rows
 
 def get_all(table):
-    return db_execute_sql(f"SELECT * FROM {table}", True)
+    return db_execute_sql("SELECT * FROM %s", True, table=table)
 
 def get_questions(guild_id):
-    return db_execute_sql(f"SELECT question_num, question, question_type FROM questions WHERE guild_id = {guild_id}", True)
+    return db_execute_sql("SELECT question_num, question, question_type FROM questions WHERE guild_id = %s", True, guild_id=guild_id)
 
 def save_user(id, name):
     db_execute_sql("INSERT INTO users ( id, name ) values ( %s, %s ) ON DUPLICATE KEY UPDATE name = %s", False, id=id, name_1=name, name_2=name)
