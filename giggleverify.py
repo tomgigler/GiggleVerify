@@ -92,7 +92,7 @@ async def on_message(msg):
             await msg.channel.send(f"Verification responses will be posted in {channel.mention}")
             return
 
-        match = re.match(r'&giggle +adduser +(\S+)( +(\S+))? *$', msg.content)
+        match = re.match(r'&g(iggle)? +adduser +(\S+)( +(\S+))? *$', msg.content)
         if match and msg.author.id == bot_owner_id:
             if match.group(3):
                 guild_id = int(match.group(3))
