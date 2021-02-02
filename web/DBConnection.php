@@ -67,4 +67,16 @@ class DBConnection {
     $stmt->execute();
     $this->close();
   }
+
+  function decrement_question_num($guild_id, $question_num){
+    $new_question_num = $question_num - 1;
+    $this->connect();
+    $sql = "UPDATE questions SET question_num = ? WHERE guild_id = ? AND question_num = ?";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('iii', $new_question_num, $guild_id, $question_num);
+    $stmt->execute();
+    $ret = $this->connection->affected_rows;
+    $this->close();
+    return $ret;
+  }
 }
