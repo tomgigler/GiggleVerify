@@ -12,8 +12,8 @@ class User:
 def load_users():
     for user in gigdb.get_all("users"):
         users[user[0]] = User(user[0], user[1])
+        user_guilds[user[0]] = []
 
-    user_guilds[row[0]] = []
     for row in gigdb.get_all("user_guilds"):
         user_guilds[row[0]].append(row[1])
 
