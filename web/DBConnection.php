@@ -58,4 +58,13 @@ class DBConnection {
     $stmt->execute();
     $this->close();
   }
+
+  function delete_question($guild_id, $question_num){
+    $this->connect();
+    $sql = "DELETE FROM questions WHERE guild_id = ? AND question_num = ?";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('ii', $guild_id, $question_num);
+    $stmt->execute();
+    $this->close();
+  }
 }

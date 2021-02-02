@@ -12,6 +12,22 @@ function add_question(){
 
 function del_question(question_num){
   alert('Delete question ' + question_num + '?');
+  data = new FormData();
+  data.append('guild_id', guild_id);
+  data.append('question_num', question_num);
+
+  myRequest = new Request("delete_question.php");
+
+  fetch(myRequest ,{
+    method: 'POST',
+    body: data,
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    location.href='home.php?guild='+guild_id
+  });
 }
 
 function save_add_question(){
