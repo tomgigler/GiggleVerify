@@ -52,9 +52,9 @@ class DBConnection {
 
   function add_new_question($guild_id, $question_num, $question, $question_type){
     $this->connect();
-    $sql = "INSERT INTO questions values (?,?,?,?)";
+    $sql = "INSERT INTO questions values (?,?,?,?) ON DUPLICATE KEY UPDATE question = ?, question_type = ?";
     $stmt = $this->connection->prepare($sql);
-    $stmt->bind_param('iisi', $guild_id, $question_num, $question, $question_type);
+    $stmt->bind_param('iisisi', $guild_id, $question_num, $question, $question_type, $question, $question_type);
     $stmt->execute();
     $this->close();
   }

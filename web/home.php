@@ -50,9 +50,9 @@ print "    <th>Type</th>\n";
 print "  </tr>\n";
 foreach($questions as $question){
   print "  <tr>\n";
-  print "    <td>".$question[0]."</td>\n";
-  print "    <td>".$question[1]."</td>\n";
-  print "    <td>".$question_types[$question[2]]."</td>\n";
+  print "    <td><center>".$question[0]."</center></td>\n";
+  print "    <td id='question_".$question[0]."'>".$question[1]."</td>\n";
+  print "    <td id='question_".$question[0]."_type'>".$question_types[$question[2]]."</td>\n";
   print "    <td class='action-cell' onclick='delete_question(".$question[0].")'>❌</td>\n";
   print "    <td class='action-cell' onclick='edit_question(".$question[0].")'>✏️</td>\n";
   print "  </tr>\n";
@@ -63,8 +63,10 @@ print "<br>\n";
 print "<br>\n";
 
 print "<button id='add_question_button' onclick=\"add_question()\" >Add Question</button>\n";
-print "<button id='save_button' onclick=\"save_add_question()\" >Save</button>\n";
-print "<button id='cancel_button' onclick=\"cancel_add_question()\" >Cancel</button>\n";
+print "<button id='add_save_button' onclick=\"save_add_question()\" >Save</button>\n";
+print "<button id='add_cancel_button' onclick=\"cancel_add_question()\" >Cancel</button>\n";
+print "<button id='edit_save_button' onclick=\"save_edit_question()\" >Save</button>\n";
+print "<button id='edit_cancel_button' onclick=\"cancel_edit_question()\" >Cancel</button>\n";
 
 ?>
 
@@ -75,6 +77,8 @@ print "<button id='cancel_button' onclick=\"cancel_add_question()\" >Cancel</but
 <script>
 <?php print "var next_question_num=".count($questions)."+1\n"; ?>
 <?php print "var guild_id='".$guild."'\n"; ?>
-$('#save_button').toggle(false)
-$('#cancel_button').toggle(false)
+$('#add_save_button').toggle(false)
+$('#add_cancel_button').toggle(false)
+$('#edit_save_button').toggle(false)
+$('#edit_cancel_button').toggle(false)
 </script>
