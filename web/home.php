@@ -53,6 +53,8 @@ foreach($questions as $question){
   print "    <td>".$question[0]."</td>\n";
   print "    <td>".$question[1]."</td>\n";
   print "    <td>".$question_types[$question[2]]."</td>\n";
+  print "    <td class='delete-cell' onclick='del_question(".$question[0].")'>❌</td>\n";
+  print "    <td class='delete-cell' onclick='edit_question(".$question[0].")'>✏️</td>\n";
   print "  </tr>\n";
 }
 print "</table>\n";
@@ -60,7 +62,9 @@ print "</table>\n";
 print "<br>\n";
 print "<br>\n";
 
-print "<button onclick=\"\" >Add Question</button>\n";
+print "<button id='add_question_button' onclick=\"add_question()\" >Add Question</button>\n";
+print "<button id='save_button' onclick=\"save_add_question()\" >Save</button>\n";
+print "<button id='cancel_button' onclick=\"cancel_add_question()\" >Cancel</button>\n";
 
 ?>
 
@@ -69,4 +73,8 @@ print "<button onclick=\"\" >Add Question</button>\n";
 </html>
 
 <script>
+<?php print "var next_question_num=".count($questions)."+1\n"; ?>
+<?php print "var guild_id='".$guild."'\n"; ?>
+$('#save_button').toggle(false)
+$('#cancel_button').toggle(false)
 </script>

@@ -15,8 +15,7 @@ label {
   font-weight: bold;
   font-size: 20px;
 }
-td.link-cell:hover {
-  font-weight: bold;
+td.delete-cell:hover {
   background-color: #005C8A;
   cursor: pointer;
   color: white;
