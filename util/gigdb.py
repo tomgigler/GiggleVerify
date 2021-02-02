@@ -40,3 +40,8 @@ def save_user(id, name):
 def save_user_guild(user_id, guild_id, guild_name):
     db_execute_sql("INSERT INTO user_guilds ( user_id, guild_id, guild_name ) values (%s, %s, %s) ON DUPLICATE KEY UPDATE guild_name = %s",
         False, user_id=user_id, guild_id=guild_id, guild_name_1=guild_name, guild_name_2=guild_name)
+
+def update_guild(guild_id, guild_name, staff_channel_id=None, staff_channel_name=None):
+    db_execute_sql("INSERT INTO guilds values (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE name = %s, staff_channel_id = %s, staff_channel_name = %s",
+        False, guild_id=guild_id, guild_name=guild_name, staff_channel_id=staff_channel_id, staff_channel_name=staff_channel_name,
+        guild_name_2=guild_name, staff_channel_id_2=staff_channel_id, staff_channel_name_2=staff_channel_name)

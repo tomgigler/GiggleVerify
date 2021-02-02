@@ -7,6 +7,8 @@ from local_settings import bot_token, bot_owner_id
 import giglog
 import gigquestions
 import giguser
+import gigutil
+import gigdb
 
 client = discord.Client()
 current_question = {}
@@ -72,6 +74,13 @@ async def on_message(msg):
             await init_user_verification(msg)
             return
 
+        match = re.match(r'\s*&\s*giggle\s*channel\s+(\S+)\s*$', msg.content)
+        if match:
+            channel = gigutil.get_channel_by_name_or_id(client, msg.guild, match.group(1))
+            gigdb.update_guild(msg.guild.id, msg.guild.name, channel.id, channel.name)
+            await msg.channel.send(f"Verification responses will be posted in {channel.mention}")
+            return
+
         match = re.match(r'&g(iggle)? +adduser +(\S+)( +(\S+))? *$', msg.content)
         if match and msg.author.id == bot_owner_id:
             if match.group(3):
@@ -95,6 +104,7 @@ async def on_ready():
 @client.event
 async def on_guild_join(guild):
     try:
+        gigdb.update_guild(guild.id, guild.name)
         user = client.get_user(bot_owner_id)
         await user.send(f"{client.user.mention} joined {guild.name}")
     except:
