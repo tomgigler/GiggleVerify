@@ -49,4 +49,13 @@ class DBConnection {
     $this->close();
     return $ret;
   }
+
+  function add_new_question($guild_id, $question_num, $question, $question_type){
+    $this->connect();
+    $sql = "INSERT INTO questions values (?,?,?,?)";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('iisi', $guild_id, $question_num, $question, $question_type);
+    $stmt->execute();
+    $this->close();
+  }
 }
