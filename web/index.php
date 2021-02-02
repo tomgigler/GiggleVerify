@@ -41,6 +41,7 @@ require_once "Login.php";
       print "   <button onclick=submit()>Login</buton>\n";
       print "         </center>\n";
       print "      </form>\n";
+      include "footer.inc";
       print "   </body>\n";
       print "</html>";   
    } 

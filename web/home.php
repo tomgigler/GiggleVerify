@@ -68,6 +68,8 @@ print "<button id='add_cancel_button' onclick=\"cancel_add_question()\" >Cancel<
 print "<button id='edit_save_button' onclick=\"save_edit_question()\" >Save</button>\n";
 print "<button id='edit_cancel_button' onclick=\"cancel_edit_question()\" >Cancel</button>\n";
 
+include "footer.inc";
+
 ?>
 
 </center>
