@@ -36,6 +36,7 @@ class Session:
 
     def delete(self):
         gigdb.delete_session(self.user_id)
+        sessions.pop(self.user_id, None)
 
 def load_sessions():
     for s in gigdb.get_all("sessions"):
