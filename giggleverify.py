@@ -36,6 +36,10 @@ async def process_dm(msg):
                     await msg.channel.send("Thank you for taking part in the verification process")
                     cs.delete()
         else:
+            if len(msg.content) > 200:
+                await msg.channel.send(f"Your answer must be fewer than 200 characters\n{cs.questions[cs.current_question].question}")
+                return
+
             if cs.questions[cs.current_question].question_type == gigquestions.QuestionType.YESNO:
                 if not re.match(r'\s*(yes|no)\s*', msg.content, re.IGNORECASE):
                     await msg.channel.send(f"Please answer `yes` or `no`\n{cs.questions[cs.current_question].question}")
