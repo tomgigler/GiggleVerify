@@ -30,7 +30,7 @@ class DBConnection {
 
   function get_guilds($user_id){
     $this->connect();
-    $sql = "SELECT guild_id, guild_name FROM user_guilds WHERE user_id = ?";
+    $sql = "SELECT guild_id, name FROM user_guilds, guilds WHERE user_id = ? AND user_guilds.guild_id = guilds.id";
     $stmt = $this->connection->prepare($sql);
     $stmt->bind_param('i', $user_id);
     $stmt->execute();
