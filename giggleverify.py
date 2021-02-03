@@ -16,10 +16,10 @@ client = discord.Client()
 async def init_user_verification(msg):
     if not gigdb.get_staff_channel_id(msg.guild.id):
         raise gigutil.GigException(f"{client.user.mention} has not been configured on this server")
-    gigsession.Session(msg.author.id, msg.author.name, msg.guild.id)
-    await client.get_user(msg.author.id).send(f"Welcome to the {msg.guild.name} verification process.  Type `verify` to begin")
     user = client.get_user(bot_owner_id)
     await user.send(f"{msg.author.mention} ({msg.author.id}) has begun the verification process on **{msg.guild.name}**")
+    gigsession.Session(msg.author.id, msg.author.name, msg.guild.id)
+    await client.get_user(msg.author.id).send(f"Welcome to the {msg.guild.name} verification process.  Type `verify` to begin")
 
 async def process_dm(msg):
     if msg.author.id in gigsession.sessions:
