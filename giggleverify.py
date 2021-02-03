@@ -33,7 +33,7 @@ async def process_dm(msg):
                     await msg.channel.send(f"Please answer the following Questions:\n\n{cs.questions[1].question}")
                     cs.save()
                 else:
-                    await msg.channel.send("Thank you for taking part in the verification process")
+                    await msg.channel.send("Thank you for joining our server. A member of our staff will review your answers for membership eligibility.")
                     cs.delete()
         else:
             if len(msg.content) > 200:
@@ -56,7 +56,7 @@ async def process_dm(msg):
                 cs.save()
                 await msg.channel.send(cs.questions[cs.current_question].question)
             else:
-                output = "Thank you for taking part in the verification process\n"
+                output = "Thank you for joining our server. A member of our staff will review your answers for membership eligibility."
                 await msg.channel.send(output)
                 output = f"{msg.author.mention} has completed the verification process:\n\n"
                 for q in cs.questions.values():
