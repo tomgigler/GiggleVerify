@@ -17,10 +17,10 @@ def load_users():
     for row in gigdb.get_all("user_guilds"):
         user_guilds[row[0]].append(row[1])
 
-def save_user(user_id, name, guild_id, guild_name):
+def save_user(user_id, name, guild_id):
     gigdb.save_user(user_id, name)
 
-    gigdb.save_user_guild(user_id, guild_id, guild_name)
+    gigdb.save_user_guild(user_id, guild_id)
 
     if user_id not in users.keys():
         users[user_id] = User(user_id, name)

@@ -98,7 +98,7 @@ async def on_message(msg):
                 guild_id = int(match.group(3))
             else:
                 guild_id = msg.guild.id
-            giguser.save_user(int(match.group(2)), client.get_user(int(match.group(2))).name, int(guild_id), client.get_guild(guild_id).name)
+            giguser.save_user(int(match.group(2)), client.get_user(int(match.group(2))).name, int(guild_id))
             await msg.channel.send(f"Permissions granted for {client.get_user(int(match.group(2))).mention} in {client.get_guild(guild_id).name}")
             return
 

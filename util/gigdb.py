@@ -40,9 +40,9 @@ def get_session_questions(user_id):
 def save_user(id, name):
     db_execute_sql("INSERT INTO users ( id, name ) values ( %s, %s ) ON DUPLICATE KEY UPDATE name = %s", False, id=id, name_1=name, name_2=name)
 
-def save_user_guild(user_id, guild_id, guild_name):
-    db_execute_sql("INSERT INTO user_guilds ( user_id, guild_id, guild_name ) values (%s, %s, %s) ON DUPLICATE KEY UPDATE guild_name = %s",
-        False, user_id=user_id, guild_id=guild_id, guild_name_1=guild_name, guild_name_2=guild_name)
+def save_user_guild(user_id, guild_id):
+    db_execute_sql("INSERT INTO user_guilds ( user_id, guild_id ) values (%s, %s) ON DUPLICATE KEY UPDATE guild_id = %s",
+        False, user_id=user_id, guild_id=guild_id, guild_id_2=guild_id)
 
 def save_session(user_id, user_name, guild_id, current_question):
     db_execute_sql("INSERT INTO sessions ( user_id, user_name, guild_id, current_question ) values (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE user_name=%s, guild_id = %s, current_question=%s",
