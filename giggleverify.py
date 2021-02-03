@@ -9,56 +9,56 @@ import gigquestions
 import giguser
 import gigutil
 import gigdb
+import gigsession
 
 client = discord.Client()
-current_question = {}
-user_questions = {}
-replies = {}
 
 async def init_user_verification(msg):
     if not gigdb.get_staff_channel_id(msg.guild.id):
         raise gigutil.GigException(f"{client.user.mention} has not been configured on this server")
-    current_question[msg.author.id] = 0
-    user_questions[msg.author.id] = gigquestions.get_questions(msg.guild.id)
-    replies[msg.author.id] = {}
+    gigsession.Session(msg.author.id, msg.author.name, msg.guild.id)
     await client.get_user(msg.author.id).send(f"Welcome to the {msg.guild.name} verification process.  Type `verify` to begin")
 
 async def process_dm(msg):
-    if msg.author.id in current_question:
-        questions = user_questions[msg.author.id]
+    if msg.author.id in gigsession.sessions:
+        # cs is CurentSession
+        cs = gigsession.sessions[msg.author.id]
 
-        if current_question[msg.author.id] == 0:
+        if cs.current_question == 0:
             if re.match(r'\S*verify\S*$', msg.content):
-                current_question[msg.author.id] = 1
-                if current_question[msg.author.id] <= len(questions):
-                    await msg.channel.send(f"Please answer the following Questions:\n\n{questions[current_question[msg.author.id]].question}")
+                cs.current_question = 1
+                if len(cs.questions):
+                    await msg.channel.send(f"Please answer the following Questions:\n\n{cs.questions[1].question}")
+                    cs.save()
                 else:
                     await msg.channel.send("Thank you for taking part in the verification process")
-                    current_question.pop(msg.author.id, None)
-                    replies.pop(msg.author.id, None)
+                    cs.delete()
         else:
-            if questions[current_question[msg.author.id]].question_type == gigquestions.QuestionType.YESNO:
+            if cs.questions[cs.current_question].question_type == gigquestions.QuestionType.YESNO:
                 if not re.match(r'\s*(yes|no)\s*', msg.content, re.IGNORECASE):
-                    await msg.channel.send(f"Please answer `yes` or `no`\n{questions[current_question[msg.author.id]].question}")
+                    await msg.channel.send(f"Please answer `yes` or `no`\n{cs.questions[cs.current_question].question}")
                     return
 
-            if questions[current_question[msg.author.id]].question_type == gigquestions.QuestionType.NUMBER:
+            if cs.questions[cs.current_question].question_type == gigquestions.QuestionType.NUMBER:
                 if not re.match(r'\d+', msg.content):
-                    await msg.channel.send(f"This question requires a numerical answer\n{questions[current_question[msg.author.id]].question}")
+                    await msg.channel.send(f"This question requires a numerical answer\n{cs.questions[cs.current_question].question}")
                     return
 
-            replies[msg.author.id][current_question[msg.author.id]] = msg.content
-            current_question[msg.author.id] += 1
-            if current_question[msg.author.id] <= len(questions):
-                await msg.channel.send(questions[current_question[msg.author.id]].question)
+            cs.questions[cs.current_question].response = msg.content
+            cs.current_question += 1
+            if cs.current_question <= len(cs.questions):
+                cs.save()
+                await msg.channel.send(cs.questions[cs.current_question].question)
             else:
                 output = "Thank you for taking part in the verification process\n"
-                output += "Your replies:\n"
-                for r in replies[msg.author.id]:
-                    output += f"{r}: {replies[msg.author.id][r]}\n"
                 await msg.channel.send(output)
-                current_question.pop(msg.author.id)
-                replies.pop(msg.author.id)
+                output = f"{msg.author.mention} has completed the verification process:\n\n"
+                for q in cs.questions.values():
+                    output += f"{q.question_num}:  {q.response}\n"
+                guild = client.get_guild(cs.guild_id)
+                channel = discord.utils.get(guild.channels, id=gigdb.get_staff_channel_id(cs.guild_id))
+                await channel.send(output)
+                cs.delete()
 
 @client.event
 async def on_message(msg):
@@ -128,4 +128,5 @@ async def on_guild_join(guild):
         await giglog.log(client, f"{format_exc()}")
 
 giguser.load_users()
+gigsession.load_sessions()
 client.run(bot_token)
