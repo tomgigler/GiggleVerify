@@ -13,7 +13,7 @@ function edit_question(question_num){
   current_question = $('#question_'+question_num).text();
   current_question_type = $('#question_'+question_num+'_type').text();
   current_question_num = question_num;
-  $('#question_'+question_num).html('<input id="new_question" style="display:table-cell; width:100%" value="'+current_question+'">')
+  $('#question_'+question_num).html('<input id="new_question" style="display:table-cell; width:100%" value="'+current_question+'" maxlength="200">')
   $('#question_'+question_num+'_type').html('<select id="question_type" style="display:table-cell; width:100%">');
   $('#question_type').append($('<option value=3>Text</option>'));
   $('#question_type').append($('<option value=2>Yes/No</option>'));
@@ -93,7 +93,7 @@ function add_question(){
   $('#add_save_button').toggle(true);
   $('#add_cancel_button').toggle(true);
   $('#question_table').append($('<tr id="tmp_row">').append($('<td>').html("<center>"+next_question_num+"</center>")));
-  $('#tmp_row').append($('<td>').append($('<input id="new_question" style="display:table-cell; width:100%">')));
+  $('#tmp_row').append($('<td>').append($('<input id="new_question" style="display:table-cell; width:100%" maxlength="200">')));
   $('#tmp_row').append($('<td>').append($('<select id="question_type" style="display:table-cell; width:100%">')));
   $('#question_type').append($('<option value=3>Text</option>'));
   $('#question_type').append($('<option value=2>Yes/No</option>'));
