@@ -22,7 +22,13 @@ async def init_user_verification(msg):
     await client.get_user(msg.author.id).send(f"Welcome to the {msg.guild.name} verification process.  Type `verify` to begin")
 
 async def process_dm(msg):
-    if msg.author.id in gigsession.sessions:
+    # if user is not currently in a session, forward to bot owner
+    if not msg.author.id in gigsession.sessions:
+        if msg.author.id != bot_owner_id:
+            user = client.get_user(bot_owner_id)
+            await user.send(f"{msg.author.mention} ({msg.author.id}) said {msg.content}")
+
+    else:
         # cs is CurentSession
         cs = gigsession.sessions[msg.author.id]
 
@@ -75,11 +81,14 @@ async def on_message(msg):
             return
 
         if isinstance(msg.channel, discord.channel.DMChannel):
-            match = re.match(r'(\d{18})\s*(.+)', msg.content)
-            if match:
-                user = client.get_user(bot_owner_id)
-                await user.send(f"{msg.author.mention} ({msg.author.id}) said {msg.content}")
-
+            if msg.author.id == bot_owner_id:
+                match = re.match(r'(\d{18})\s*(.+)', msg.content)
+                if match:
+                    user = client.get_user(int(match.group(1)))
+                    try:
+                        await user.send(f"{match.group(2)}")
+                    except:
+                        await msg.channel.send(f"Failed to send to {match.group(1)}")
             await process_dm(msg)
             return
 
