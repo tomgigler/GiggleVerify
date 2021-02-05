@@ -4,7 +4,7 @@ require_once "DBConnection.php";
 
 session_start();
 
-if(!isset($_SESSION['USER'])){ exit; }
+if(!isset($_SESSION['user_id'])){ exit; }
 
 $db = new DBConnection();
 $db->delete_question($_POST['guild_id'], $_POST['question_num']);
