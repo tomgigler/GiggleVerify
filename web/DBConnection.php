@@ -17,17 +17,6 @@ class DBConnection {
     $this->connection->close();
   } //close
 
-  function get_user($user, $pass){
-    $this->connect();
-    $sql = "SELECT id FROM users WHERE name = ? AND password = PASSWORD(?)";
-    $stmt = $this->connection->prepare($sql);
-    $stmt->bind_param('ss', $user, $pass);
-    $stmt->execute();
-    $ret = $stmt->get_result()->fetch_all()[0];
-    $this->close();
-    return $ret;
-  }
-
   function get_guilds($user_id){
     $this->connect();
     $sql = "SELECT guild_id, name FROM user_guilds, guilds WHERE user_id = ? AND user_guilds.guild_id = guilds.id";
