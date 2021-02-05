@@ -5,9 +5,6 @@ include "settings.inc";
 require_once "DBConnection.php";
 
 print "<center>\n";
-print "<button onclick=\"location.href='change_password.php'\" >Change Password</button>\n";
-print "<button onclick=\"location.href='logout.php'\" >Logout</button>\n";
-print "<br><br>\n";
 
 if(isset($_SESSION['message']))
 {
@@ -67,6 +64,7 @@ print "<button id='add_save_button' onclick=\"save_add_question()\" >Save</butto
 print "<button id='add_cancel_button' onclick=\"cancel_add_question()\" >Cancel</button>\n";
 print "<button id='edit_save_button' onclick=\"save_edit_question()\" >Save</button>\n";
 print "<button id='edit_cancel_button' onclick=\"cancel_edit_question()\" >Cancel</button>\n";
+print "<button onclick=\"location.href='logout.php'\" >Logout</button>\n";
 
 include "footer.inc";
 
