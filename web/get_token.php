@@ -51,6 +51,12 @@ $_SESSION['user_id'] = $user_json['id'];
 $_SESSION['username'] = $user_json['username'];
 $_SESSION['avatar'] = $user_json['avatar'];
 
+if($_GET['state'] == 'persist'){
+    setcookie("user_id", $_SESSION['user_id'], time() + 24 * 60 * 60 * 7);
+    setcookie("username", $_SESSION['username'], time() + 24 * 60 * 60 * 7);
+    setcookie("avatar", $_SESSION['avatar'], time() + 24 * 60 * 60 * 7);
+}
+
 fclose($fp);
 
 header("Location: index.php");
