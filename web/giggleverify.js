@@ -3,6 +3,25 @@ var current_question = "";
 var current_question_num = null;
 var current_question_type = null;
 
+function guild_select_change(){
+  data = new FormData();
+  data.append('guild_id', $('#guild_select').val());
+
+  myRequest = new Request("update_current_guild.php");
+
+  fetch(myRequest ,{
+    method: 'POST',
+    body: data,
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  });
+
+  location.reload();
+}
+
 function edit_question(question_num){
   if(editing){ return; }
   editing = true;

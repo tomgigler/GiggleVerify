@@ -28,6 +28,17 @@ class DBConnection {
     return $ret;
   }
 
+  function get_current_guild($user_id){
+    $this->connect();
+    $sql = "SELECT current_guild_id FROM users WHERE id = ?";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $ret = $stmt->get_result()->fetch_all()[0][0];
+    $this->close();
+    return $ret;
+  }
+
   function get_questions($guild_id){
     $this->connect();
     $sql = "SELECT question_num, question, question_type FROM questions WHERE guild_id = ?";
@@ -53,6 +64,15 @@ class DBConnection {
     $sql = "DELETE FROM questions WHERE guild_id = ? AND question_num = ?";
     $stmt = $this->connection->prepare($sql);
     $stmt->bind_param('ii', $guild_id, $question_num);
+    $stmt->execute();
+    $this->close();
+  }
+
+  function set_current_guild($guild_id, $user_id){
+    $this->connect();
+    $sql = "UPDATE users SET current_guild_id = ? WHERE id = ?";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('ii', $guild_id, $user_id);
     $stmt->execute();
     $this->close();
   }
