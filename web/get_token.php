@@ -1,6 +1,6 @@
 <?php
 
-include "settings.inc";
+include "settings.php";
 session_start();
 
 // The url you wish to send the POST request to

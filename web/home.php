@@ -1,7 +1,7 @@
 <?php
-include "login_check.inc";
-include "header.inc";
-include "settings.inc";
+include "login_check.php";
+include "header.php";
+include "settings.php";
 require_once "DBConnection.php";
 
 print "<center>\n";
@@ -73,7 +73,7 @@ print "<button id='edit_save_button' onclick=\"save_edit_question()\" >Save</but
 print "<button id='edit_cancel_button' onclick=\"cancel_edit_question()\" >Cancel</button>\n";
 print "<button onclick=\"location.href='logout.php'\" >Logout</button>\n";
 
-include "footer.inc";
+include "footer.php";
 
 ?>
 
