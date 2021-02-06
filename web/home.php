@@ -17,16 +17,12 @@ if(isset($_SESSION['message']))
 $db = new DBConnection();
 $guilds = $db->get_guilds($_SESSION['user_id']);
 
-$guild = $guilds[0][0];
-
-if(isset($_GET['guild'])){
-  foreach($guilds as $g){
-    if($g[0] == $_GET['guild']){ $guild = $g[0]; }
-  }
+if(! $guild = $db->get_current_guild($_SESSION['user_id'])){
+  $guild = $guilds[0][0];
 }
 
 print "    <label>Server:&nbsp;</label>\n";
-print "      <select label='Guild:' id='guild_select' onchange=\"location.href='home.php?guild='+$('#guild_select').val()\">\n";
+print "      <select label='Guild:' id='guild_select' onchange='guild_select_change()'>\n";
 foreach($guilds as $g){
   print "        <option value='".$g[0]."'";
   if($guild == $g[0]) { print " selected"; }
