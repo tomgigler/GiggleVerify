@@ -111,12 +111,16 @@ async def on_message(msg):
 
         match = re.match(r'&g(iggle)? +adduser +(\S+)( +(\S+))? *$', msg.content)
         if match and msg.author.id == bot_owner_id:
+            guild = msg.guild
             if match.group(3):
-                guild_id = int(match.group(3))
-            else:
-                guild_id = msg.guild.id
-            giguser.save_user(int(match.group(2)), client.get_user(int(match.group(2))).name, int(guild_id))
-            await msg.channel.send(f"Permissions granted for {client.get_user(int(match.group(2))).mention} in {client.get_guild(guild_id).name}")
+                guild = client.get_guild(int(match.group(3)))
+                if not guild:
+                    raise gigutil.GigException(f"Cannot find Server {match.group(3)}")
+            user = client.get_user(int(match.group(2)))
+            if not user:
+                raise gigutil.GigException(f"Cannot find user {match.group(2)}")
+            giguser.save_user(user.id, user.name, guild.id)
+            await msg.channel.send(f"Permissions granted for {user.mention} in {guild.name}")
             return
 
     except gigutil.GigException as e:
