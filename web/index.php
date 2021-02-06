@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-   
+
 include "settings.php";
 
 if (!isset($_SESSION['username']))
@@ -17,5 +17,6 @@ if (!isset($_SESSION['username']))
 else
 {
     header("Location: home.php");
+    exit();
 }
 ?> 

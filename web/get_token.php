@@ -1,7 +1,7 @@
 <?php
 
-include "settings.php";
 session_start();
+include "settings.php";
 
 // The url you wish to send the POST request to
 $url = "https://discord.com/api/v6/oauth2/token";
@@ -54,5 +54,6 @@ $_SESSION['avatar'] = $user_json['avatar'];
 fclose($fp);
 
 header("Location: index.php");
+exit();
 
 ?>
