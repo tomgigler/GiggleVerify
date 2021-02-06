@@ -89,9 +89,13 @@ include "footer.php";
   }
   print "var next_question_num=".count($questions)."+1\n";
   print "var guild_id='".$guild."'\n";
+  print "var user_id='".$_SESSION['user_id']."'\n";
+  print "var username='".$_SESSION['username']."'\n";
+  print "var avatar_id='".$_SESSION['avatar']."'\n";
 ?>
 $('#add_save_button').toggle(false)
 $('#add_cancel_button').toggle(false)
 $('#edit_save_button').toggle(false)
 $('#edit_cancel_button').toggle(false)
+$('#avatar_div').prepend("<img src='https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar_id+".jpg' /><br><b class='footer'>"+username+"</b>")
 </script>

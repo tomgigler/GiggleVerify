@@ -17,6 +17,6 @@
   </head>
   <body>
     <div class="hero-image">
-      <div class="hero-text">
+      <div id='avatar_div' class="hero-text">
       </div>
     </div>
