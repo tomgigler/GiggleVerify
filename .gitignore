@@ -2,7 +2,7 @@
 index.php
 connect_to_db.sh
 web/settings.inc
-/images/
+images
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
