@@ -3,10 +3,14 @@
 session_start();
 include "settings.php";
 
+if(isset($_GET['error'])){
+    header("Location: index.php");
+    exit();
+}
+
 // The url you wish to send the POST request to
 $url = "https://discord.com/api/v6/oauth2/token";
 $REDIRECT_URI = "https://" . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/get_token.php";
-print $REDIRECT_URI;
 
 //The data you want to send via POST
 $fields = [ 'client_id' => $CLIENT_ID, 'client_secret' => $CLIENT_SECRET, 'grant_type' => 'authorization_code',
