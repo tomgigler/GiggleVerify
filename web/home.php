@@ -21,11 +21,13 @@ if(! $guild = $db->get_current_guild($_SESSION['user_id'])){
   $guild = $guilds[0][0];
 }
 
+$guild_found = false;
+print "  <div id='server_list_div'>\n";
 print "    <label>Server:&nbsp;</label>\n";
 print "      <select label='Guild:' id='guild_select' onchange='guild_select_change()'>\n";
 foreach($guilds as $g){
   print "        <option value='".$g[0]."'";
-  if($guild == $g[0]) { print " selected"; }
+  if($guild == $g[0]) { print " selected"; $guild_found = true; }
   print ">".$g[1]."</option>\n";
 }
 print "      </select>\n";
@@ -52,6 +54,15 @@ foreach($questions as $question){
 }
 print "</table>\n";
 
+print "</div>\n";
+if(!$guild_found){
+  print "<br><br><br>\n";
+  print "<div class='footer'>\n";
+  print "<center>\n";
+  print "It looks like you don't have access to anything here<br><br>If you've already invited the GiggleVerify bot to your server, DM the bot to request access\n";
+  print "</center>\n";
+  print "</div>\n";
+}
 print "<br>\n";
 print "<br>\n";
 
@@ -71,8 +82,14 @@ include "footer.inc";
 </html>
 
 <script>
-<?php print "var next_question_num=".count($questions)."+1\n"; ?>
-<?php print "var guild_id='".$guild."'\n"; ?>
+<?php
+  if(!$guild_found){
+    print "$('#server_list_div').toggle(false)\n";
+    print "$('#add_question_button').toggle(false)\n";
+  }
+  print "var next_question_num=".count($questions)."+1\n";
+  print "var guild_id='".$guild."'\n";
+?>
 $('#add_save_button').toggle(false)
 $('#add_cancel_button').toggle(false)
 $('#edit_save_button').toggle(false)
