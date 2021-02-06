@@ -76,6 +76,7 @@ function save_edit_question(){
   })
   .then(function(response) {
     if (!response.ok) {
+      location.href='index.php'
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   });
@@ -103,7 +104,7 @@ function delete_question(question_num){
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    location.href='home.php?guild='+guild_id
+    location.href='home.php'
   });
 }
 
@@ -155,6 +156,7 @@ function save_add_question(){
   })
   .then(function(response) {
     if (!response.ok) {
+      location.href='index.php'
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   });

@@ -1,15 +1,11 @@
 <?php
    session_start();
-
-   if (isset($_SESSION['user_id']))
-   {
-      $message = "    <font color='green'><b>You have been successfully logged out.</b></font>\n";
-   }
-
+   session_unset();
    session_destroy();
 
-  header("Location: index.php");
+   setcookie("user_id", "", time() - 60 * 60);
+   setcookie("username", "", time() - 60 * 60);
 
+   header("Location: index.php");
+   exit();
 ?>
-
-

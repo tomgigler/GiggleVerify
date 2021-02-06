@@ -1,7 +1,7 @@
 # My files
 index.php
 connect_to_db.sh
-web/settings.inc
+web/settings.php
 images
 
 # Byte-compiled / optimized / DLL files
