@@ -59,7 +59,9 @@ if(!$guild_found){
   print "<br><br><br>\n";
   print "<div class='footer'>\n";
   print "<center>\n";
-  print "It looks like you don't have access to anything here<br><br>If you've already invited the GiggleVerify bot to your server, DM the bot to request access\n";
+  print "Hi ".$_SESSION['username']."!<br><br>\n";
+  print "It looks like you don't have access to anything here<br><br>\n";
+  print "If you've already invited the ".$CLIENT_NAME." bot to your server, DM the bot to request access\n";
   print "</center>\n";
   print "</div>\n";
 }
