@@ -26,7 +26,8 @@ async def process_dm(msg):
     if not msg.author.id in gigsession.sessions:
         if msg.author.id != bot_owner_id:
             user = client.get_user(bot_owner_id)
-            await user.send(f"{msg.author.mention} ({msg.author.id}) said {msg.content}")
+            content = re.sub("\n", "\n> ", msg.content)
+            await user.send(f"{msg.author.mention} ({msg.author.id}) said:\n> {content}")
 
     else:
         # cs is CurentSession
