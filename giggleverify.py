@@ -98,8 +98,7 @@ async def on_message(msg):
 
         if re.match(r'\s*&giggle', msg.content):
             if msg.author.id not in giguser.user_guilds.keys() or msg.guild.id not in giguser.user_guilds[msg.author.id]: 
-                await msg.channel.send(embed=discord.Embed(description=f"You do not have premission to interact with me on this server\n\nDM {client.user.mention} to request permission\n\n"
-                    f"Your message _must_ begin with this server id `{msg.guild.id}`", color=0xff0000))
+                await msg.channel.send(embed=discord.Embed(description=f"You do not have premission to interact with me on this server\n\nDM {client.user.mention} to request permission" , color=0xff0000))
                 return
 
         match = re.match(r'\s*&giggle\s*channel\s+(\S+)\s*$', msg.content)
