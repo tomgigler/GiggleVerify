@@ -45,7 +45,7 @@ def save_user_guild(user_id, guild_id):
         False, user_id=user_id, guild_id=guild_id, guild_id_2=guild_id)
 
 def save_session(user_id, user_name, guild_id, current_question):
-    db_execute_sql("INSERT INTO sessions ( user_id, user_name, guild_id, current_question ) values (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE user_name=%s, guild_id = %s, current_question=%s",
+    db_execute_sql("INSERT INTO sessions ( user_id, user_name, guild_id, current_question, start_time ) values (%s, %s, %s, %s, NOW()) ON DUPLICATE KEY UPDATE user_name=%s, guild_id = %s, current_question=%s",
         False, user_id=user_id, user_name=user_name, guild_id=guild_id, current_question=current_question, user_name_1=user_name, guild_id_1=guild_id, current_question_1=current_question)
 
 def save_session_question(user_id, question_num, question, question_type, response):
