@@ -65,15 +65,24 @@ async def process_dm(msg):
             else:
                 output = "Thank you for joining our server. A member of our staff will review your answers for membership eligibility."
                 await msg.channel.send(output)
+
+                # Send results to staff_channel
                 output = f"{msg.author.mention} has completed the verification process:\n\n"
                 for q in cs.questions.values():
                     output += f"{q.question_num}:  {q.response}\n"
                 guild = client.get_guild(cs.guild_id)
                 channel = discord.utils.get(guild.channels, id=gigdb.get_staff_channel_id(cs.guild_id))
                 await channel.send(output)
+
+                # DM Bot owner
                 user = client.get_user(bot_owner_id)
-                await user.send(f"{msg.author.mention} ({msg.author.id}) has completed the verification process on **{guild.name}**\n" + output)
+                await user.send(f"{msg.author.mention} ({msg.author.id}) has completed the verification process on **{guild.name}**\n")
                 cs.delete()
+
+                # Send confirmation to message_channel
+                output = f"{msg.author.mention} has completed the DM verification questions"
+                channel = discord.utils.get(guild.channels, id=gigdb.get_message_channel_id(cs.guild_id))
+                await channel.send(output)
 
 @client.event
 async def on_message(msg):
@@ -102,11 +111,18 @@ async def on_message(msg):
                 await msg.channel.send(embed=discord.Embed(description=f"You do not have premission to interact with me on this server\n\nDM {client.user.mention} to request permission" , color=0xff0000))
                 return
 
-        match = re.match(r'\s*&giggle\s*channel\s+(\S+)\s*$', msg.content)
+        match = re.match(r'\s*&giggle\s+staff_channel\s+(\S+)\s*$', msg.content)
         if match:
             channel = gigutil.get_channel_by_name_or_id(client, msg.guild, match.group(1))
-            gigdb.update_guild(msg.guild.id, msg.guild.name, channel.id, channel.name)
+            gigdb.update_guild_staff_channel(msg.guild.id, msg.guild.name, channel.id, channel.name)
             await msg.channel.send(f"Verification responses will be posted in {channel.mention}")
+            return
+
+        match = re.match(r'\s*&giggle\s+message_channel\s+(\S+)\s*$', msg.content)
+        if match:
+            channel = gigutil.get_channel_by_name_or_id(client, msg.guild, match.group(1))
+            gigdb.update_guild_message_channel(msg.guild.id, msg.guild.name, channel.id, channel.name)
+            await msg.channel.send(f"Verification completion notices will be posted in {channel.mention}")
             return
 
         match = re.match(r'&g(iggle)? +adduser +(\S+)( +(\S+))? *$', msg.content)
