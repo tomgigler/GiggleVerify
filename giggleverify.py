@@ -111,6 +111,20 @@ async def on_message(msg):
                 await msg.channel.send(embed=discord.Embed(description=f"You do not have premission to interact with me on this server\n\nDM {client.user.mention} to request permission" , color=0xff0000))
                 return
 
+        match = re.match(r'\s*&giggle\s+members\s*$', msg.content)
+        if match:
+            await msg.channel.send(f"The server currently has {len(msg.guild.members)} members")
+            return
+
+        match = re.match(r'\s*&giggle\s+role\s+(.*\S+)$', msg.content)
+        if match:
+            role = discord.utils.get(msg.guild.roles, name=match.group(1))
+            if not role:
+                await msg.channel.send(f"Cannot find role **{match.group(1)}**")
+            else:
+                await msg.channel.send(f"{len(role.members)} members currently have the {role.name} role")
+            return
+
         match = re.match(r'\s*&giggle\s+staff_channel\s+(\S+)\s*$', msg.content)
         if match:
             channel = gigutil.get_channel_by_name_or_id(client, msg.guild, match.group(1))
