@@ -48,7 +48,7 @@ async def process_dm(msg):
                 return
 
             if cs.questions[cs.current_question].question_type == gigquestions.QuestionType.YESNO:
-                if not re.match(r'\s*(yes|no)\s*', msg.content, re.IGNORECASE):
+                if not re.match(r'\s*(yes|no)\s*$', msg.content, re.IGNORECASE):
                     await msg.channel.send(f"**Please answer `yes` or `no`**\n{cs.questions[cs.current_question].question}")
                     return
 
