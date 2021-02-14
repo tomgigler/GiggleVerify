@@ -11,7 +11,7 @@ import gigutil
 import gigdb
 import gigsession
 
-client = discord.Client()
+client = discord.Client(intents=discord.Intents.all())
 
 async def init_user_verification(msg):
     if not gigdb.get_staff_channel_id(msg.guild.id):
